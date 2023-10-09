@@ -1,0 +1,38 @@
+name: Deploy to InfinityFree
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4' # Change this to your PHP version
+
+      - name: Install dependencies
+        run: |
+          composer install --no-progress --no-suggest --no-interaction
+
+      - name: Deploy to InfinityFree
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"ref": "main"}' \
+            https://api.github.com/repos/${{ github.repository }}/actions/workflows/infinityfree.yml/dispatches
+
+          # You need to replace {workflow_id} with your workflow ID.
+          # You can find the workflow ID in the URL when viewing your workflow file on GitHub.
+
+        env:
+          INFINITYFREE_USERNAME: ${{ secrets.INFINITYFREE_USERNAME }}
+          INFINITYFREE_PASSWORD: ${{ secrets.INFINITYFREE_PASSWORD }}
+
