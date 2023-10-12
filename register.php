@@ -82,14 +82,14 @@ website.
 
             <p>
                 <label> PASSWORD: </label>
-                <input type="text" id="pass" name="password" />
+                <input type="password" id="pass" name="password" />
             </p>
             <p>
                 <label> CONFIRM PASSWORD: </label>
-                <input type="text" id="confirm_pass" name="password_2" />
+                <input type="password" id="confirm_pass" name="password_2" />
             </p>
             <p>
-                <input type="submit" id="button" value="Login" />
+                <input type="submit" id="button" value="Register" />
             </p>
 
             <?php 
