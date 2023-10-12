@@ -13,7 +13,7 @@
        /*
         * Check whether the user entered a username and password, the password matches the
         * required guidelines, and whether the password and confirm password are the same.
-        * If everything is good, add user info to users table.
+        * If everything is good, add user info to users table thereby registering the user.
         */
         $userid = $_POST['userid'];
         $password = $_POST['password'];
@@ -31,14 +31,24 @@
         else if ($password !== $password_2) {
             echo "Password and Confirm Password do not match!";
         }
+        else if (strlen($password) < 10) {
+            echo ("The password is not long enough. You need at least 10 characters.");
+        }
+        /*
+         * Using Prepared SQL queries to avoid injection attacks.
+         * Hashed Passwords
+         */
         else {
-            $sql = "INSERT INTO users (username, password) VALUES ('$userid','$password')";
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO users (username, password) VALUES (?,?)";
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, "ss", $userid, $hashed_password);
             try {
-                if ($conn->query($sql) === TRUE) {
+                if (mysqli_stmt_execute($stmt) === TRUE) {
                     header("Location: main.php"); 
                     exit(); 
                 } else {
-                    echo "Error: " . $sql . "<br>" . $conn->error;
+                    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 }
             }
             catch (Exception $e) {
