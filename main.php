@@ -1,4 +1,12 @@
 <?php
+
+    require_once "config.php";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if  ($conn->connect_error) {
+        die("Connection Failed: " . $conn->connect_error);
+    }
+
     session_start(); 
     if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] === false) {
         header("Location: login.php");
@@ -8,9 +16,8 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_POST["Logout"])) {
             handleLogout();
-        } elseif (isset($_POST["submitForm2"])) {
-            // Form 2 was submitted
-            handleForm2();
+        } elseif (isset($_POST["Update"])) {
+            handleUpdate();
         }
     }
 
@@ -23,8 +30,7 @@
         exit();
     }
     
-    function handleForm2() {
-        // Logic for handling Form 2
+    function handleUpdate() {
         echo "Form 2 submitted!";
     }
 
@@ -44,6 +50,44 @@
     <form method="post" action="">
         <button type="submit" name="Logout">Logout</button>
     </form>
+    <?php
+    $sql = "SELECT * FROM ratings";
+    $result = mysqli_query($conn, $sql);
+    ?>
 
+    <table>
+        <tr>
+            <th>id</th>
+            <th>username</th>
+            <th>artist</th>
+            <th>song</th>
+            <th>rating</th>
+        </tr>
+
+        <?php
+    while($row = mysqli_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>" . $row['id'] . "</td>";
+        echo "<td>" . $row['username'] . "</td>";
+        echo "<td>" . $row['artist'] . "</td>";
+        echo "<td>" . $row['song'] . "</td>";
+        echo "<td>" . $row['rating'] . "</td>";
+        if ($_SESSION["username"] === $row["username"]) {
+        echo "<td>
+                <form action='update_music.php' method='post'>
+                    <input type='hidden' name='id' value='" . $row['id'] . "'>
+                    <input type='submit' value='Update' name='Update'>
+                </form>
+                <form action='delete_music.php' method='post'>
+                    <input type='hidden' name='id' value='" . $row['id'] . "'>
+                    <input type='submit' value='Delete' name='Delete'>
+                </form>
+              </td>";
+        }
+        echo "</tr>";
+    }
+    ?>
+
+    </table>
 </body>
 </html>
