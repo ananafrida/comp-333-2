@@ -6,6 +6,13 @@
     if  ($conn->connect_error) {
         die("Connection Failed: " . $conn->connect_error);
     }
+    
+    session_start(); 
+    if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+        header("Location: main.php");
+        exit();
+    }
+
 ?>
 
 <?php
@@ -36,6 +43,8 @@
                     if ($row) {
                         $db_password = $row['password'];
                         if (password_verify($pass, $db_password)){
+                            session_start();
+                            $_SESSION["loggedin"] = true;
                             header("Location: main.php"); 
                             exit(); 
                         }
@@ -85,10 +94,6 @@ website.
             <p>
                 <input type="submit" id="button" value="Login" />
             </p>
-
-            <?php 
-
-            ?>
         </form>
     </div>
 </body>

@@ -39,14 +39,40 @@
          * Hashed Passwords
          */
         else {
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO users (username, password) VALUES (?,?)";
-            $stmt = mysqli_prepare($conn, $sql);
-            mysqli_stmt_bind_param($stmt, "ss", $userid, $hashed_password);
+            //First Check if the username already exists in DB
+            $check_sql = "SELECT * FROM users WHERE username = ?";
+            $check_stmt = mysqli_prepare($conn, $check_sql);
+            mysqli_stmt_bind_param($check_stmt, "s", $userid);
             try {
-                if (mysqli_stmt_execute($stmt) === TRUE) {
-                    header("Location: main.php"); 
-                    exit(); 
+                if (mysqli_stmt_execute($check_stmt) === TRUE) {
+                    $result = mysqli_stmt_get_result($check_stmt);
+                    $row = mysqli_fetch_array($result);
+
+                    if(mysqli_num_rows($result) > 0) {
+                        echo "Please try another username";
+                    } 
+                    
+                    else {
+                        // If not already in db, we register the user
+                        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                        $sql = "INSERT INTO users (username, password) VALUES (?,?)";
+                        $stmt = mysqli_prepare($conn, $sql);
+                        mysqli_stmt_bind_param($stmt, "ss", $userid, $hashed_password);
+                        try {
+                            if (mysqli_stmt_execute($stmt) === TRUE) {
+                                session_start();
+                                $_SESSION["loggedin"] = true;
+                                header("Location: main.php"); 
+                                exit(); 
+                            } else {
+                                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+                            }
+                        }
+                        catch (Exception $e) {
+                            echo $e;
+                        }
+                    }
+
                 } else {
                     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
                 }
@@ -54,6 +80,7 @@
             catch (Exception $e) {
                 echo $e;
             }
+
         }
 
         
@@ -91,10 +118,6 @@ website.
             <p>
                 <input type="submit" id="button" value="Register" />
             </p>
-
-            <?php 
-
-            ?>
         </form>
     </div>
 </body>
