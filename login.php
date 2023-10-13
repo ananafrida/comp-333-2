@@ -46,6 +46,7 @@
                             session_regenerate_id();
                             session_start();
                             $_SESSION["loggedin"] = true;
+                            $_SESSION["username"] = $userid;
                             header("Location: main.php"); 
                             exit(); 
                         }
