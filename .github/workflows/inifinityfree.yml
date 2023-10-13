@@ -1,4 +1,4 @@
-name: Deploy to InfinityFree
+name: Deploy to FileManager AI
 
 on:
   push:
@@ -9,30 +9,21 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4' # Change this to your PHP version
-
-      - name: Install dependencies
+        
+      - name: Install FTP client
+        run: sudo apt-get install -y lftp
+        
+      - name: Deploy code to FileManager AI
         run: |
-          composer install --no-progress --no-suggest --no-interaction
-
-      - name: Deploy to InfinityFree
-        run: |
-          curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d '{"ref": "main"}' \
-            https://api.github.com/repos/${{ github.repository }}/actions/workflows/infinityfree.yml/dispatches
-
-          # You need to replace {workflow_id} with your workflow ID.
-          # You can find the workflow ID in the URL when viewing your workflow file on GitHub.
-
+          lftp -e "set ssl:verify-certificate no; \
+                   open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} -p ${{ secrets.FTP_PORT, 21 }} sftp://${{ secrets.FTP_HOSTNAME }}; \
+                   cd htdocs; \
+                   mirror -R -e -x .git --verbose .; \
+                   bye"
         env:
-          INFINITYFREE_USERNAME: ${{ secrets.INFINITYFREE_USERNAME }}
-          INFINITYFREE_PASSWORD: ${{ secrets.INFINITYFREE_PASSWORD }}
-
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_HOSTNAME: ${{ secrets.FTP_HOSTNAME }}
+          FTP_PORT: ${{ secrets.FTP_PORT, 21 }}
