@@ -1,0 +1,29 @@
+name: Deploy to FileManager AI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Install FTP client
+        run: sudo apt-get install -y lftp
+        
+      - name: Deploy code to FileManager AI
+        run: |
+          lftp -e "set ssl:verify-certificate no; \
+                   open -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} -p ${{ secrets.FTP_PORT, 21 }} sftp://${{ secrets.FTP_HOSTNAME }}; \
+                   cd htdocs; \
+                   mirror -R -e -x .git --verbose .; \
+                   bye"
+        env:
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_HOSTNAME: ${{ secrets.FTP_HOSTNAME }}
+          FTP_PORT: ${{ secrets.FTP_PORT, 21 }}
