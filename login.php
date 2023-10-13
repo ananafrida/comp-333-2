@@ -43,6 +43,7 @@
                     if ($row) {
                         $db_password = $row['password'];
                         if (password_verify($pass, $db_password)){
+                            session_regenerate_id();
                             session_start();
                             $_SESSION["loggedin"] = true;
                             header("Location: main.php"); 

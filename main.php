@@ -17,6 +17,7 @@
     //Get a new cookie value because there is a change in permissions and logout.
     function handleLogout() {
         $_SESSION = array();
+        session_regenerate_id();
         session_destroy();
         header("Location: login.php");
         exit();

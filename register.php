@@ -6,6 +6,12 @@
     if  ($conn->connect_error) {
         die("Connection Failed: " . $conn->connect_error);
     }
+
+    session_start(); 
+    if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+        header("Location: main.php");
+        exit();
+    }
 ?>
 
 <?php
