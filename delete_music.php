@@ -16,6 +16,7 @@
      * Display the users a form that they can use to delete the ratings of their 
      * music.
      */
+
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Delete"])) {
         $music_id = intval($_POST['id']);
         $sql = "SELECT username, artist, song, rating FROM ratings WHERE id=$music_id";
@@ -28,13 +29,6 @@
         $music_rating = $row['rating'];
 
         ?>
-
-
-<form action="" method="post">
-    <input type='hidden' name='id' value=<?php echo $music_id ?>>
-    <input type="submit" value="Delete_Cancel" name="Delete_Cancel">
-    <input type="submit" value="Delete_Confirm" name="Delete_Confirm">
-</form>
 
 <?php
 
@@ -63,3 +57,17 @@
             exit();
         }
 ?>
+
+<!DOCTYPE html>
+<html>
+<body>
+    <!-- shows on top of the page that the user is logged in as -->
+    <h1>You are logged in <?php echo $_SESSION['username']; ?></h1>
+    <form action="" method="post">
+    <input type='hidden' name='id' value=<?php echo $music_id ?>>
+    <input type="submit" value="Delete_Cancel" name="Delete_Cancel">
+    <input type="submit" value="Delete_Confirm" name="Delete_Confirm">
+</form>
+</body>
+</html>
+

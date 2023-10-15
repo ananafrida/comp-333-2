@@ -27,28 +27,10 @@
         $music_song = $row['song'];
         $music_rating = $row['rating'];
 
-        ?>
+?>
 
 
-<form action="" method="post">
-    <!-- Fixed Username (Cannot be changed) -->
-    <label>Username: <?php echo $music_username; ?></label>
-    <input type="hidden" name="username" value="<?php echo $music_username; ?>">
-    <label> ID </label>
-    <input type='hidden' name='id' value=<?php echo $music_id ?>>
-    <br />
-    <!-- Editable Fields (Pre-filled with database information) -->
-    <label>Artist:</label>
-    <input type="text" name="artist" value="<?php echo $music_artist; ?>" required><br>
 
-    <label>Song:</label>
-    <input type="text" name="song" value="<?php echo $music_song; ?>" required><br>
-
-    <label>Rating:</label>
-    <input type="number" name="rating" value="<?php echo $music_rating; ?>" min="1" max="10" required><br>
-
-    <input type="submit" value="Update" name="Update_Table">
-</form>
 
 <?php
 
@@ -77,3 +59,31 @@
             }
         } 
 ?>
+
+<!DOCTYPE html>
+<html>
+<body>
+    <!-- shows on top of the page that the user is logged in as -->
+    <h1>You are logged in <?php echo $_SESSION['username']; ?></h1>
+    <form action="" method="post">
+    <!-- Fixed Username (Cannot be changed) -->
+    <label>Username: <?php echo $music_username; ?></label>
+    <input type="hidden" name="username" value="<?php echo $music_username; ?>">
+    <label> ID </label>
+    <input type='hidden' name='id' value=<?php echo $music_id ?>>
+    <br />
+    <!-- Editable Fields (Pre-filled with database information) -->
+    <label>Artist:</label>
+    <input type="text" name="artist" value="<?php echo $music_artist; ?>" required><br>
+
+    <label>Song:</label>
+    <input type="text" name="song" value="<?php echo $music_song; ?>" required><br>
+
+    <label>Rating:</label>
+    <input type="number" name="rating" value="<?php echo $music_rating; ?>" min="1" max="10" required><br>
+
+    <input type="submit" value="Update" name="Update_Table">
+</form>
+</form>
+</body>
+</html>
