@@ -33,61 +33,66 @@
     function handleUpdate() {
         echo "Form 2 submitted!";
     }
+// php config and login checking ends here
 
+
+
+$username = $_SESSION['username'];
+
+// Query the database to retrieve all songs
+$sql = "SELECT * FROM ratings";
+$result = mysqli_query($conn, $sql);
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main Page</title>
-    <meta name="description" content="." />
 </head>
 <body>
-    <h1>
-        Main Page
-    </h1>
+    <h1>You are logged in <?php echo $username; ?></h1>
+    <h2>List of Songs</h2>
+    
+    <table border="6">
+        <tr>
+            <th>ID</th>
+            <th>Artist</th>
+            <th>Username</th>
+            <th>Song</th>
+            <th>Rating</th>
+            <th>Actions</th>
+        </tr>
+    <!-- CHECKING FOR EACH ROW THE DATA COLUMNS -->
+    <?php while ($row = $result->fetch_assoc()): ?>
+        <tr>
+            <td><?= $row['id'] ?></td>
+            <td><?= $row['username'] ?></td>
+            <td><?= $row['artist'] ?></td>
+            <td><?= $row['song'] ?></td>
+            <td><?= $row['rating'] ?></td>
+            <!--ENSURES THE DELETE AND UPDATE BUTTON IS ONLY ACCESSIBLE TO THE LOGGED IN USER -->
+            <?php if ($username === $row["username"]): ?>
+                <td>  
+                    <a href="view_music.php?song_id=<?php echo $row['id']; ?>">View</a>
+                    <!-- updates a song -->
+                    <form action="update_music.php" method="post">
+                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                        <input type="submit" value="Update" name="Update">
+                    </form>
+                    <!-- deletes a song -->
+                    <form action="delete_music.php" method="post">
+                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                        <input type="submit" value="Delete" name="Delete">
+                    </form>
+                </td>
+            <?php endif; ?>
+        </tr>
+    <?php endwhile; ?>
+    </table>
+
+     <!-- LOGOUT BUTTON WHICH DIRRECTS TO THE LOGIN -->
     <form method="post" action="">
         <button type="submit" name="Logout">Logout</button>
     </form>
-    <?php
-    $sql = "SELECT * FROM ratings";
-    $result = mysqli_query($conn, $sql);
-    ?>
-
-    <table>
-        <tr>
-            <th>id</th>
-            <th>username</th>
-            <th>artist</th>
-            <th>song</th>
-            <th>rating</th>
-        </tr>
-
-        <?php
-    while($row = mysqli_fetch_assoc($result)) {
-        echo "<tr>";
-        echo "<td>" . $row['id'] . "</td>";
-        echo "<td>" . $row['username'] . "</td>";
-        echo "<td>" . $row['artist'] . "</td>";
-        echo "<td>" . $row['song'] . "</td>";
-        echo "<td>" . $row['rating'] . "</td>";
-        if ($_SESSION["username"] === $row["username"]) {
-        echo "<td>
-                <form action='update_music.php' method='post'>
-                    <input type='hidden' name='id' value='" . $row['id'] . "'>
-                    <input type='submit' value='Update' name='Update'>
-                </form>
-                <form action='delete_music.php' method='post'>
-                    <input type='hidden' name='id' value='" . $row['id'] . "'>
-                    <input type='submit' value='Delete' name='Delete'>
-                </form>
-              </td>";
-        }
-        echo "</tr>";
-    }
-    ?>
-
-    </table>
 </body>
 </html>
