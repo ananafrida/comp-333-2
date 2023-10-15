@@ -71,15 +71,29 @@ $result = mysqli_query($conn, $sql);
             <td><?= $row['song'] ?></td>
             <td><?= $row['rating'] ?></td>
             <!--ENSURES THE DELETE AND UPDATE BUTTON IS ONLY ACCESSIBLE TO THE LOGGED IN USER -->
+
+            <td>  
+            <!-- views a song -->
+            <a href="view_music.php?song_id=<?php echo $row['id']; ?>">View</a>
             <?php if ($username === $row["username"]): ?>
-                <td>
+                    <!-- updates a song -->
+                    <form action="update_music.php" method="post">
+                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                        <input type="submit" value="Update" name="Update">
+                    </form>
+                    <!-- deletes a song -->
+                    <form action="delete_music.php" method="post">
+                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                        <input type="submit" value="Delete" name="Delete">
+                    </form>
                 </td>
             <?php endif; ?>
         </tr>
     <?php endwhile; ?>
     </table>
-    <!-- LOGOUT BUTTON WHICH DIRRECTS TO THE LOGIN PAGE -->
-    <form method="post">
+
+     <!-- LOGOUT BUTTON WHICH DIRRECTS TO THE LOGIN -->
+    <form method="post" action="">
         <button type="submit" name="Logout">Logout</button>
     </form>
 </body>
