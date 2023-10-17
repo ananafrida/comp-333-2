@@ -1,5 +1,5 @@
 <?php
-
+// php config and login checking starts here
     require_once "config.php";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -34,8 +34,6 @@
         echo "Form 2 submitted!";
     }
 // php config and login checking ends here
-
-
 
 $username = $_SESSION['username'];
 
@@ -102,5 +100,9 @@ $result = mysqli_query($conn, $sql);
     <form method="post" action="">
         <button type="submit" name="Logout">Logout</button>
     </form>
+
+    <!-- create new song rating -->
+    <a href="create_music.php">Add new song rating</a>
+
 </body>
 </html>
