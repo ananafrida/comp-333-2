@@ -35,8 +35,6 @@
     }
 // php config and login checking ends here
 
-
-
 $username = $_SESSION['username'];
 
 // Query the database to retrieve all songs
@@ -96,7 +94,9 @@ $result = mysqli_query($conn, $sql);
     <form method="post" action="">
         <button type="submit" name="Logout">Logout</button>
     </form>
+
     <!-- create new song rating -->
     <a href="create_music.php">Add new song rating</a>
+
 </body>
 </html>
