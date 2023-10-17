@@ -72,10 +72,16 @@ $result = mysqli_query($conn, $sql);
             <td><?= $row['rating'] ?></td>
             <!--ENSURES THE DELETE AND UPDATE BUTTON IS ONLY ACCESSIBLE TO THE LOGGED IN USER -->
 
+            <?php if ($username === $row["username"]): ?>
+                <td>  
+                    <a href="view_music.php?song_id=<?php echo $row['id']; ?>">View</a>
+
+
             <td>  
             <!-- views a song -->
             <a href="view_music.php?song_id=<?php echo $row['id']; ?>">View</a>
             <?php if ($username === $row["username"]): ?>
+
                     <!-- updates a song -->
                     <form action="update_music.php" method="post">
                         <input type="hidden" name="id" value="<?= $row['id'] ?>">
