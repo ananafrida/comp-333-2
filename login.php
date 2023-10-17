@@ -97,6 +97,8 @@ website.
                 <input type="submit" id="button" value="Login" />
             </p>
         </form>
+        <a href="register.php">Register</a>
+
     </div>
 </body>
 </html>
