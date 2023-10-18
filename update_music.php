@@ -57,7 +57,11 @@
             catch (Exception $e) {
                 echo $e;
             }
-        } 
+        }
+        else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["Update_Cancel"])) {
+            header("Location: main.php");
+            exit();
+        }
 ?>
 
 <!DOCTYPE html>
@@ -80,9 +84,10 @@
     <input type="text" name="song" value="<?php echo $music_song; ?>" required><br>
 
     <label>Rating:</label>
-    <input type="number" name="rating" value="<?php echo $music_rating; ?>" min="1" max="10" required><br>
+    <input type="number" name="rating" value="<?php echo $music_rating; ?>" min="1" max="5" required><br>
 
     <input type="submit" value="Update" name="Update_Table">
+    <input type="submit" value="Cancel" name="Update_Cancel">
 </form>
 </form>
 </body>
