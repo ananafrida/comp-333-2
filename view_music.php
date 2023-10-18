@@ -60,6 +60,8 @@
     <title>Song Details</title>
 </head>
 <body>
+    <!-- shows on top of the page that the user is logged in as -->
+    <h1>You are logged in <?php echo $_SESSION['username']; ?></h1>
     <!-- Display the song details -->
     <h2>Song Details</h2>
     <p><strong>Username:</strong> <?php echo $username; ?></p>
