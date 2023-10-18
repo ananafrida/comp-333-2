@@ -73,7 +73,6 @@
     <!-- Fixed Username (Cannot be changed) -->
     <label>Username: <?php echo $music_username; ?></label>
     <input type="hidden" name="username" value="<?php echo $music_username; ?>">
-    <label> ID </label>
     <input type='hidden' name='id' value=<?php echo $music_id ?>>
     <br />
     <!-- Editable Fields (Pre-filled with database information) -->
