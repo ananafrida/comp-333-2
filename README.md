@@ -2,12 +2,14 @@
 
 Welcome to the music rating full-stack CRUD web app with a MySQL and PHP backend. This is the readme file for our full-stack CRUD web app project. In this document, we will provide an overview of the app's functionality, the setup of the development environment, and the organization of the code. Screenshots of table structures and other relevant information will be included as per the requirements.
 
+
 ## Table of Contents
 - [Setting up the Development Environment](#setting-up-the-development-environment)
 - [App Functionality](#app-functionality)
 - [User Guideline](#user-guideline)
 - [Code Organization](#code-organization)
 - [Screenshots](#screenshots)
+- [Production Environment](#production-environment)
 - [Contributions](#contributions)
 
 ## Setting up the Development Environment
@@ -161,6 +163,9 @@ Below are screenshots of our `ratings` and `users` table structures as requested
 
 ![image](https://github.com/n-aggarwal/comp-333-2/assets/58756224/1c47a09e-373c-417f-b1b7-97f57d8e9bc9)
 
+
+## Production Environment
+The link to the website is: [Full Stack CRUD App](https://music-rating.great-site.net/register.php)
 
 
 ## Contributions
