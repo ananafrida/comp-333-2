@@ -63,10 +63,11 @@
 <body>
     <!-- shows on top of the page that the user is logged in as -->
     <h1>You are logged in <?php echo $_SESSION['username']; ?></h1>
+    <?php echo "Are you sure you want to delete this?" ?>
     <form action="" method="post">
     <input type='hidden' name='id' value=<?php echo $music_id ?>>
-    <input type="submit" value="Delete_Cancel" name="Delete_Cancel">
-    <input type="submit" value="Delete_Confirm" name="Delete_Confirm">
+    <input type="submit" value="No" name="Delete_Cancel">
+    <input type="submit" value="Yes" name="Delete_Confirm">
 </form>
 </body>
 </html>
