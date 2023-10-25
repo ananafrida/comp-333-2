@@ -10,6 +10,7 @@ The link to the website is: [Full Stack CRUD App](https://music-rating.great-sit
 - [User Guideline](#user-guideline)
 - [Code Organization](#code-organization)
 - [Screenshots](#screenshots)
+- [Production Environment](#production-environment)
 - [Contributions](#contributions)
 
 ## Setting up the Development Environment
@@ -163,6 +164,9 @@ Below are screenshots of our `ratings` and `users` table structures as requested
 
 ![image](https://github.com/n-aggarwal/comp-333-2/assets/58756224/1c47a09e-373c-417f-b1b7-97f57d8e9bc9)
 
+
+## Production Environment
+The link to the website is: [Full Stack CRUD App](https://music-rating.great-site.net/register.php)
 
 
 ## Contributions
